@@ -12,10 +12,10 @@ export const EventProvider = ({ children }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Use import.meta.env for Vite instead of process.env
-  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+ 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-  // Memoized fetch functions
+ 
   const fetchProfiles = useCallback(async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/profiles`);
@@ -70,10 +70,10 @@ export const EventProvider = ({ children }) => {
     }
   };
 
-  // FIXED: Added profileId parameter to updateEvent function
+  
   const updateEvent = async (eventId, updates, profileId = null) => {
     try {
-      // If profileId is not provided, use selectedProfile
+     
       const updatingProfileId = profileId || selectedProfile?._id;
       
       if (!updatingProfileId) {
@@ -84,11 +84,10 @@ export const EventProvider = ({ children }) => {
         `${API_BASE_URL}/events/${eventId}`,
         {
           ...updates,
-          profileId: updatingProfileId  // ADD THIS: Pass profileId to backend
+          profileId: updatingProfileId  
         }
       );
       
-      // Update the event in local state
       setEvents(prev => prev.map(event => 
         event._id === eventId ? response.data.data || response.data : event
       ));
@@ -111,7 +110,7 @@ export const EventProvider = ({ children }) => {
     }
   };
 
-  // NEW: Function to log event views
+ 
   const logEventView = async (eventId, timezone) => {
     if (!selectedProfile?._id) return;
     
@@ -123,7 +122,7 @@ export const EventProvider = ({ children }) => {
       });
     } catch (error) {
       console.error('Failed to log view:', error);
-      // Don't throw error for view logs - it's not critical
+     
     }
   };
 
@@ -139,7 +138,7 @@ export const EventProvider = ({ children }) => {
     createEvent,
     updateEvent,
     getEventLogs,
-    logEventView  // Add this if you want to track views
+    logEventView  
   };
 
   return (
