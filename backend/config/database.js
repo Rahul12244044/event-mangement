@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(`${process.env.MONGODB_URI}/event-management` || 'mongodb://localhost:27017/event-management', {
+    await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -13,4 +13,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = connectDB();
+module.exports = connectDB;
